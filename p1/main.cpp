@@ -1,19 +1,22 @@
 #include "mbed.h"
 #include "bbcar.h"
 #include "bbcar_rpc.h"
+
+BufferedSerial pc(USBTX, USBRX);
+
 Ticker servo_ticker;
 PwmOut pin5(D5), pin6(D6);
 BufferedSerial xbee(D1, D0);
 
-BufferedSerial pc(USBTX, USBRX);
+
 
 BBCar car(pin5, pin6, servo_ticker);
 
 void RP(Arguments *in, Reply *out);
 RPCFunction reverp(&RP, "RP");
 
-Thread t;
-EventQueue queue(32 * EVENTS_EVENT_SIZE);
+//Thread t;
+//EventQueue queue(32 * EVENTS_EVENT_SIZE);
 
 double d1, d2;
 char P;
