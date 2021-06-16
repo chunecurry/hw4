@@ -38,7 +38,7 @@ int main() {
             uart.read(rec, sizeof(rec));
             pc.write(rec, sizeof(rec));
             if(rec[0]=='0'){
-                car.goStraightCalib(-10);
+                car.goStraightCalib(-10);   // go straight if detecting line
                 //ThisThread::sleep_for(100ms);
             }           
             else if(rec[0]=='1'){                
