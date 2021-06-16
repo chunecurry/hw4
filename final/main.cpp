@@ -14,7 +14,7 @@ int main() {
     double speed_table0[] = {-8.445, -7.812, -6.647, -6.408, -3.900, 0.000, 3.900, 7.843, 8.880, 8.901, 9.199};
     double pwm_table1[] = {-100, -80, -60, -40, -20, 0, 20, 40, 60, 80, 100};
     double speed_table1[] = {-10.445, -9.812, -9.647, -9.408, -5.900, 0.000, 5.900, 10.843, 11.880, 11.401, 12.199};
-    car.setCalibTable(11, pwm_table0, speed_table0, 11, pwm_table1, speed_table1);
+    car.setCalibTable(11, pwm_table0, speed_table0, 11, pwm_table1, speed_table1);  // use above table to make car go straight
 
     char buf[256], outbuf[256];
     FILE *devin = fdopen(&xbee, "r");
@@ -25,14 +25,14 @@ int main() {
     while (a==0) {
         int i=0;
         char recv = fgetc(devin);
-        if(recv == '1') {
+        if(recv == '1') {       // if xbee is availible, text 1 to start the following functions
             a=1;
         }
         buf[i] = fputc(recv, devout);
     }
     uart.set_baud(9600);
     while(a==1){
-        if(uart.readable()){
+        if(uart.readable()){    // read data from openMV
             car.stop();
             char rec[1];
             uart.read(rec, sizeof(rec));
