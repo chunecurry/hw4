@@ -22,14 +22,14 @@ int main() {
 
     int a=1;
 
-    /*while (a==0) {
+    while (a==0) {
         int i=0;
         char recv = fgetc(devin);
         if(recv == '1') {
             a=1;
         }
         buf[i] = fputc(recv, devout);
-    }*/
+    }
     uart.set_baud(9600);
     while(a==1){
         if(uart.readable()){
@@ -42,15 +42,18 @@ int main() {
                 //ThisThread::sleep_for(100ms);
             }           
             else if(rec[0]=='1'){                
-                car.turn(5, 0.3);
+                car.turn(5, 0.3); // if apriltag is in left, turn the car to make it toward apriltag
             }
-            else if(rec[0]=='5'){    
+            else if(rec[0]=='2'){                
+                car.turn(5, -0.3); // if apriltag is in right, turn the car to make it toward apriltag
+            }
+            else if(rec[0]=='5'){  // once it is toward apriltag, stop the car and end function
                 car.stop();            
                 a=0;
             }
-            else car.stop();
+            else car.stop();       // if not detecting anything, car holds still
         }
-        //ThisThread::sleep_for(100ms);
+        ThisThread::sleep_for(100ms);
     }
 }
 
