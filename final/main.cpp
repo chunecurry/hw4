@@ -40,8 +40,21 @@ int main() {
             if(rec[0]=='0'){
                 car.goStraightCalib(-10);   // go straight if detecting line
                 //ThisThread::sleep_for(100ms);
-            }           
-            else if(rec[0]=='1'){                
+            }         
+            else {  // once it is toward apriltag, stop the car and end function
+                car.stop();            
+                a=2;
+            }
+        }
+        ThisThread::sleep_for(100ms);
+    }
+    while(a==2){
+        if(uart.readable()){    // read data from openMV
+            car.stop();
+            char rec[1];
+            uart.read(rec, sizeof(rec));
+            pc.write(rec, sizeof(rec));
+            if(rec[0]=='1'){                
                 car.turn(5, 0.3); // if apriltag is in left, turn the car to make it toward apriltag
             }
             else if(rec[0]=='2'){                
@@ -49,7 +62,7 @@ int main() {
             }
             else if(rec[0]=='5'){  // once it is toward apriltag, stop the car and end function
                 car.stop();            
-                a=0;
+                a=3;
             }
             else car.stop();       // if not detecting anything, car holds still
         }
